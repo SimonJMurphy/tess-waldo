@@ -1,0 +1,1 @@
+This tool was developed during the Building Early Science with TESS meeting, which took place in 2019 March at the University of Chicago.
