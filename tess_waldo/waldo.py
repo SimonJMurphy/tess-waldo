@@ -182,9 +182,9 @@ class Waldo(object):
         else:
             return 'r'
 
-    def plot(self, ax=None):
+    def plot(self, ax=None, **kwargs):
         if ax is None:
-            fig, ax = plt.subplots(figsize=[6,6])
+            fig, ax = plt.subplots(**kwargs)
         
         # plot the frame and ccd boundaries
         ccd_size = self.ccd_size
@@ -219,5 +219,4 @@ class Waldo(object):
         for i in np.arange(1,5,1):
             ax.arrow(*self.make_x_arrows(1, 4, i), head_width=8)
             ax.arrow(*self.make_y_arrows(1, 4, i), head_width=8)
-
-        plt.show(fig)
+        plt.show()
