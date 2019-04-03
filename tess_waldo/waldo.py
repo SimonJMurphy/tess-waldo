@@ -20,7 +20,7 @@ class Waldo(object):
     def get_data(self):
         catalog_data = Catalogs.query_object(f"{self.target}", catalog="TIC")
 
-        ident, ra, dec, dstArcSec = catalog_data.to_pandas().iloc[0][["ID", "ra", "dec", "dstArcSec"]]
+        ident, ra, dec, dstArcSec = catalog_data[0][["ID", "ra", "dec", "dstArcSec"]]
         self.mast_data = tess_stars2px_function_entry(ident, ra, dec)
         
         if dstArcSec > 0.2:
