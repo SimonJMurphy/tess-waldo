@@ -184,9 +184,12 @@ class Waldo(object):
 
     def plot(self, ax=None, **kwargs):
         if ax is None:
-            fig, ax = plt.subplots(**kwargs)
+            n_unique_cameras = len(np.unique(self.cameras))
+            fig, axes = plt.subplots(nrows=n_unique_cameras, ncols=1, sharex=True,
+                                     figsize=[8,n_unique_cameras*8], squeeze=False, **kwargs)
+            axes = axes.flatten()
         
-        # plot the frame and ccd boundaries
+        # setup properties of Camera and CCD boundaries
         ccd_size = self.ccd_size
         frame_x = [0, 2*ccd_size, 2*ccd_size, 0, 0]
         frame_y = [2*ccd_size, 2*ccd_size, 0, 0, 2*ccd_size]
@@ -194,29 +197,44 @@ class Waldo(object):
         inner_y_vert = [0, 2*ccd_size]
         inner_x_horiz = [0, 2*ccd_size]
         inner_y_horiz = [ccd_size, ccd_size]
-        ax.plot(frame_x, frame_y, 'k',lw=4)
-        ax.plot(inner_x_vert, inner_y_vert, 'k',lw=3)
-        ax.plot(inner_x_horiz, inner_y_horiz, 'k',lw=3)
         
-        # label the axes
-        ax.set_xlabel("x position, px")
-        ax.set_ylabel("y position, px")
+        for ax in axes:
+            # plot the frame and ccd boundaries
+            ax.plot(frame_x, frame_y, 'k',lw=4)
+            ax.plot(inner_x_vert, inner_y_vert, 'k',lw=3)
+            ax.plot(inner_x_horiz, inner_y_horiz, 'k',lw=3)
+        
+            # label the axes
+            ax.set_ylabel("y position, px")
+            
+            # set y range for multiple panels
+            ax.set_ylim(0,2*ccd_size)
+            
+            # plot the direction in which ccds are read out
+            for i in np.arange(1,5,1):
+                ax.arrow(*self.make_x_arrows(1, 4, i), head_width=8)
+                ax.arrow(*self.make_y_arrows(1, 4, i), head_width=8)
 
         # plot the CCD positions
         for i in range(0,len(self.sectors)):
             pos = self.get_position(self.sectors[i], self.cameras[i], self.ccds[i], self.colpix[i], self.rowpix[i])
-            ax.scatter(pos[0] ,pos[1], label=f"Sector{int(self.sectors[i])}", 
+            axes[self.cameras[i]-4+n_unique_cameras-1].scatter(pos[0] ,pos[1], label=f"Sector{int(self.sectors[i])}", 
                        c=self.color_by_sector_availability(self.sectors[i]), s=2)
 
-            ax.annotate(f"{int(self.sectors[i])}", [pos[0]+16, pos[1]-16], 
+            axes[self.cameras[i]-4+n_unique_cameras-1].annotate(f"{int(self.sectors[i])}", [pos[0]+16, pos[1]-16], 
                         color=self.color_by_sector_availability(self.sectors[i]))
-            ax.annotate(f"Camera {int(self.cameras[i])}", [2*ccd_size - 64, 2*ccd_size - 64],
+            axes[self.cameras[i]-4+n_unique_cameras-1].annotate(f"Camera {int(self.cameras[i])}", [2*ccd_size - 64, 2*ccd_size - 64],
                         color='k', ha='right', va='top')
 
-            ax.annotate(f"{self.target}", [ccd_size, 2*ccd_size+64], color='b', ha='center')
+        # squash the panels together
+        plt.subplots_adjust(hspace=0.)
 
-        # plot the direction in which ccds are read out
-        for i in np.arange(1,5,1):
-            ax.arrow(*self.make_x_arrows(1, 4, i), head_width=8)
-            ax.arrow(*self.make_y_arrows(1, 4, i), head_width=8)
+        # provide some space at the top and bottom for the target name and the x axis
+        axes[0].set_ylim(top = 2*ccd_size + 256)
+        axes[-1].set_ylim(bottom = -128)
+
+        # add the x-axis label and the target name in the newly created space
+        axes[-1].set_xlabel("x position, px")
+        axes[0].annotate(f"{self.target}", [ccd_size, 2*ccd_size+64], color='b', ha='center')
+
         plt.show()
