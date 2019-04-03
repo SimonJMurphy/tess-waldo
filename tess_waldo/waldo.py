@@ -186,7 +186,7 @@ class Waldo(object):
         if ax is None:
             n_unique_cameras = len(np.unique(self.cameras))
             fig, axes = plt.subplots(nrows=n_unique_cameras, ncols=1, sharex=True,
-                                     figsize=[8,n_unique_cameras*8], squeeze=False, **kwargs)
+                                     figsize=[6,n_unique_cameras*6], squeeze=False, **kwargs)
             axes = axes.flatten()
         
         # setup properties of Camera and CCD boundaries
