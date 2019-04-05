@@ -218,12 +218,12 @@ class Waldo(object):
         # plot the CCD positions
         for i in range(0,len(self.sectors)):
             pos = self.get_position(self.sectors[i], self.cameras[i], self.ccds[i], self.colpix[i], self.rowpix[i])
-            axes[self.cameras[i]-4+n_unique_cameras-1].scatter(pos[0] ,pos[1], label=f"Sector{int(self.sectors[i])}", 
+            axes[self.cameras[i]-self.cameras.max()+n_unique_cameras-1].scatter(pos[0] ,pos[1], label=f"Sector{int(self.sectors[i])}",
                        c=self.color_by_sector_availability(self.sectors[i]), s=2)
 
-            axes[self.cameras[i]-4+n_unique_cameras-1].annotate(f"{int(self.sectors[i])}", [pos[0]+16, pos[1]-16], 
+            axes[self.cameras[i]-self.cameras.max()+n_unique_cameras-1].annotate(f"{int(self.sectors[i])}", [pos[0]+16, pos[1]-16],
                         color=self.color_by_sector_availability(self.sectors[i]))
-            axes[self.cameras[i]-4+n_unique_cameras-1].annotate(f"Camera {int(self.cameras[i])}", [2*ccd_size - 64, 2*ccd_size - 64],
+            axes[self.cameras[i]-self.cameras.max()+n_unique_cameras-1].annotate(f"Camera {int(self.cameras[i])}", [2*ccd_size - 64, 2*ccd_size - 64],
                         color='k', ha='right', va='top')
 
         # squash the panels together
