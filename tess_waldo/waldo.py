@@ -40,7 +40,7 @@ class Waldo(object):
         self.max_available = self.available_sectors.max()
         
         southern_limit = 13
-        if self.max_available >= southern_limit:
+        if self.max_available > southern_limit:
             raise ValueError('Sector not in Southern Hemisphere')
         
         if np.any(self.cameras) > 4:
