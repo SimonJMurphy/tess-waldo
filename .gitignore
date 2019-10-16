@@ -4,3 +4,4 @@ dist/*
 *.egg*
 *.pptx
 examples/.ipynb_checkpoints*
+test.ipynb
