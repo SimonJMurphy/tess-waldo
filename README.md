@@ -6,6 +6,12 @@
   TESS-Waldo is a tool for finding the position of a target on the TESS CCDs and Cameras.
 </p>
 
+<p align="center">
+  <img src="docs/R_Dor.png" width="250"/>
+  <br>
+</p>
+
+
 ### Installation
 
 You can install using pip
