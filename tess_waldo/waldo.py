@@ -39,9 +39,7 @@ class Waldo(object):
         self.available_sectors = sr.table["sequence_number"].data
         self.max_available = self.available_sectors.max()
         
-        southern_limit = 13
-        if self.max_available > southern_limit:
-            raise ValueError('Sector not in Southern Hemisphere')
+        cycle_1_limit = 13
         
         if np.any(self.cameras) > 4:
             raise ValueError("Camera not in list")
@@ -54,8 +52,9 @@ class Waldo(object):
                            'ColPix': self.colpix[6], 'RowPix': self.rowpix[7]})
         
     def get_position(self, sector, camera, ccd, colpix, rowpix):
-        ''' Gets the position of the star on the Camera/CCD, but presently for southern pointing only
+        ''' Gets the position of the star on the Camera/CCD.
         '''
+
         ccd_size = self.ccd_size
         if camera == 1 or camera == 2:
             if ccd == 1:
@@ -90,7 +89,7 @@ class Waldo(object):
     def make_x_arrows(self, sector, camera, ccd):
         ''' Plotting tool for adding arrows to the camera plot in the direction of CCD readout.
         '''
-        sector = 1 #hackyhack, valid for southern hemisphere only
+
         anchor = 128
         dx, dy = anchor, 0
         ccd_size = self.ccd_size
@@ -134,7 +133,7 @@ class Waldo(object):
     def make_y_arrows(self, sector, camera, ccd):
         ''' Plotting tool for adding arrows to the camera plot in the direction of CCD readout.
         '''
-        sector = 1 #hackyhack, valid for southern hemisphere only
+
         anchor = 128
         dx, dy = 0, anchor
         ccd_size = self.ccd_size
