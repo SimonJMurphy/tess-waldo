@@ -7,7 +7,8 @@
 </p>
 
 <p align="center">
-  <img src="docs/R_Dor.png" width="250"/>
+  Here's an example using R Dor, which is in the southern CVZ.
+  <img src="docs/R_Dor.png" width="350"/>
   <br>
 </p>
 
