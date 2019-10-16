@@ -9,7 +9,7 @@
 <p align="center">
   Here's an example using R Dor, which is in the southern CVZ.
   <br>
-  <img src="docs/R_Dor.png" width="350"/>
+  <img src="docs/R_Dor.png" width="350"/><pre>      </pre>
   <br>
 </p>
 
