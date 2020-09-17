@@ -225,6 +225,10 @@ class Waldo(object):
             axes[self.cameras[i]-self.cameras.max()+n_unique_cameras-1].annotate(f"Camera {int(self.cameras[i])}", [2*ccd_size - 64, 2*ccd_size - 64],
                         color='k', ha='right', va='top')
 
+            # warn if the target is within 20px of a CCD boundary
+            if (pos[0] < 20) or (pos[0] > 2*ccd_size - 20) or (ccd_size - 20 < pos[0] and pos[0] < ccd_size + 20) or (pos[1] < 20) or (pos[1] > 2*ccd_size - 20) or (ccd_size - 20 < pos[1] and pos[1] < ccd_size + 20):
+                print(f"WARNING: target is less than 20px from a CCD edge in Sector {self.sectors[i]}")
+
         # squash the panels together
         plt.subplots_adjust(hspace=0.)
 
